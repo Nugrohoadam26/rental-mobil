@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}Sewa Mobil - {{ mobil.nama }}{% endblock %}
+
+{% block content %}
+<style>
+  body {
+    background: linear-gradient(135deg, #edf0f2, #dce1e5);
+    color: #333;
+  }
+
+  .sewa-container {
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .sewa-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  }
+
+  h2 {
+    color: #2c3e50;
+    font-weight: bold;
+  }
+
+  img {
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+  }
+
+  img:hover {
+    transform: scale(1.02);
+  }
+
+  .btn-primary {
+    background: linear-gradient(90deg, #3498db, #2980b9);
+    border: none;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    border-radius: 6px;
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(90deg, #2980b9, #1f618d);
+    transform: scale(1.05);
+  }
+
+  #hasil_perhitungan {
+    font-size: 1.1rem;
+    padding: 10px;
+    background: #eafaf1;
+    border-radius: 6px;
+    border: 1px solid #c3e6cb;
+  }
+</style>
+
+<div class="container mt-5 pt-4">
+  <div class="sewa-container">
+    <h2 class="mb-4">Form Penyewaan Mobil: {{ mobil.nama }}</h2>
+  
+    <div class="row">
+      <div class="col-md-6 mb-4">
+        {% if mobil.gambar %}
+          <img src="{{ mobil.gambar.url }}" class="img-fluid shadow-sm" alt="{{ mobil.nama }}">
+        {% else %}
+          <img src="https://source.unsplash.com/600x400/?car,{{ mobil.merk }}" class="img-fluid shadow-sm" alt="{{ mobil.nama }}">
+        {% endif %}
+      </div>
+      <div class="col-md-6">
+        <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+
+          <div id="hasil_perhitungan" class="mt-3 fw-bold text-success"></div>
+
+          <button type="submit" class="btn btn-primary mt-3 w-100">Sewa Sekarang</button>
+        </form>
+
+        <a href="{% url 'daftar_mobil' %}" class="btn btn-primary mt-3 w-100">Kembali ke Daftar Mobil</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function hitungHarga() {
+    const hargaPerHari = Number("{{ mobil.harga_per_hari|default:0 }}");
+    const tglMulai = new Date(document.getElementById("id_tanggal_mulai").value);
+    const tglSelesai = new Date(document.getElementById("id_tanggal_selesai").value);
+    const hasilElement = document.getElementById("hasil_perhitungan");
+
+    if (!isNaN(tglMulai.getTime()) && !isNaN(tglSelesai.getTime())) {
+      let lama = Math.ceil((tglSelesai - tglMulai) / (1000 * 60 * 60 * 24));
+      if (lama < 1) lama = 1;
+      const total = lama * hargaPerHari;
+
+      hasilElement.innerHTML = `
+        <p>Lama Sewa: ${lama} hari</p>
+        <p>Total Harga: Rp ${total.toLocaleString('id-ID')}</p>
+      `;
+    } else {
+      hasilElement.innerHTML = "";
+    }
+  }
+
+  window.addEventListener("DOMContentLoaded", function () {
+    const mulai = document.getElementById("id_tanggal_mulai");
+    const selesai = document.getElementById("id_tanggal_selesai");
+    if (mulai && selesai) {
+      mulai.addEventListener("change", hitungHarga);
+      selesai.addEventListener("change", hitungHarga);
+    }
+  });
+</script>
+{% endblock %}

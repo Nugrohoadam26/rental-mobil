@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  body {
+    background: linear-gradient(135deg, #edf0f2, #dce1e5);
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .login-card {
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .login-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  }
+
+  .login-card h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2c3e50;
+  }
+
+  .form-control {
+    border-radius: 8px;
+  }
+
+  .btn-login {
+    background: linear-gradient(90deg, #3498db, #2980b9);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    transition: background 0.3s ease;
+  }
+
+  .btn-login:hover {
+    background: linear-gradient(90deg, #2980b9, #1f6390);
+  }
+
+  .register-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+  }
+
+  .register-link a {
+    color: #2980b9;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .register-link a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="login-card">
+  <h2>Login Akun</h2>
+  <form method="post">
+    {% csrf_token %}
+    <div class="mb-3">
+      <label for="username" class="form-label">Username</label>
+      <input type="text" id="username" name="username" class="form-control" placeholder="Masukkan username" required>
+    </div>
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input type="password" id="password" name="password" class="form-control" placeholder="Masukkan password" required>
+    </div>
+    <button type="submit" class="btn btn-login w-100">Login</button>
+  </form>
+
+  <div class="register-link">
+    Belum punya akun? <a href="{% url 'register' %}">Daftar di sini</a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}Syarat & Ketentuan{% endblock %}
+
+{% block content %}
+<style>
+  /* Background gradient abu-abu */
+  body {
+    background: linear-gradient(135deg, #edf0f2, #dce1e5);
+    color: #333;
+  }
+
+  .terms-container {
+    background: #fff;
+    border-radius: 12px;
+    padding: 40px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .terms-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  }
+
+  h2 {
+    color: #2c3e50;
+    font-weight: bold;
+  }
+
+  .terms-list li {
+    margin-bottom: 15px;
+    line-height: 1.6;
+    font-size: 1rem;
+  }
+
+  .highlight {
+    color: #3498db;
+    font-weight: 600;
+  }
+
+  /* Tombol kembali */
+  .btn-back {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: linear-gradient(90deg, #3498db, #2980b9);
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .btn-back:hover {
+    background: linear-gradient(90deg, #2980b9, #1f6390);
+    transform: scale(1.05);
+    text-decoration: none;
+    color: #fff;
+  }
+</style>
+
+<div class="container my-5">
+  <div class="terms-container text-center">
+    <h2 class="mb-4">Syarat & Ketentuan</h2>
+    <p class="text-muted mb-4">
+      Harap baca dengan seksama syarat & ketentuan berikut sebelum melakukan pemesanan.
+    </p>
+    <ul class="terms-list text-start">
+      <li><span class="highlight">1.</span> Penyewa harus berusia minimal 21 tahun dan memiliki SIM yang masih berlaku.</li>
+      <li><span class="highlight">2.</span> Penyewa wajib menunjukkan identitas asli seperti KTP atau paspor pada saat pengambilan kendaraan.</li>
+      <li><span class="highlight">3.</span> Semua biaya sewa harus dibayar penuh di awal, termasuk deposit jaminan.</li>
+      <li><span class="highlight">4.</span> Kendaraan harus dikembalikan dalam kondisi yang sama seperti saat diterima, termasuk jumlah bahan bakar.</li>
+      <li><span class="highlight">5.</span> Penyewa bertanggung jawab atas semua denda lalu lintas selama periode sewa.</li>
+      <li><span class="highlight">6.</span> Dilarang menggunakan kendaraan untuk aktivitas ilegal atau balapan liar.</li>
+      <li><span class="highlight">7.</span> Pembatalan sewa kurang dari 24 jam sebelum jadwal tidak mendapatkan pengembalian dana.</li>
+    </ul>
+    <a href="{% url 'daftar_mobil' %}" class="btn-back"> Kembali </a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+  body {
+    background: linear-gradient(135deg, #edf0f2, #dce1e5);
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .register-card {
+    max-width: 400px;
+    margin: 100px auto;
+    padding: 30px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .register-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+  }
+
+  .register-card h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #2c3e50;
+  }
+
+  .form-control {
+    border-radius: 8px;
+  }
+
+  .btn-register {
+    background: linear-gradient(90deg, #27ae60, #229954);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    transition: background 0.3s ease;
+  }
+
+  .btn-register:hover {
+    background: linear-gradient(90deg, #229954, #1e8449);
+  }
+
+  .login-link {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+  }
+
+  .login-link a {
+    color: #2980b9;
+    text-decoration: none;
+    font-weight: 500;
+  }
+
+  .login-link a:hover {
+    text-decoration: underline;
+  }
+</style>
+
+<div class="register-card">
+  <h2>Buat Akun Baru</h2>
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {% for field in form %}
+      <div class="mb-3">
+        <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+        {{ field }}
+        {% if field.errors %}
+          <div class="text-danger small">
+            {{ field.errors|striptags }}
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+    <button type="submit" class="btn btn-register w-100">Daftar</button>
+  </form>
+
+  <div class="login-link">
+    Sudah punya akun? <a href="{% url 'login' %}">Login di sini</a>
+  </div>
+</div>
+{% endblock %}

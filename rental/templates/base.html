@@ -1,0 +1,179 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Sewa Mobil Terpercaya{% endblock %}</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      background: #f8f9fa; /* Tetap netral */
+    }
+
+    main {
+      flex: 1;
+    }
+
+    footer {
+      padding: 1rem;
+      transition: background 0.5s, color 0.5s;
+    }
+
+    /* === NAVBAR THEMES === */
+    .navbar {
+      transition: background 0.5s, color 0.5s;
+    }
+
+    /* Glass Theme */
+    .navbar-glass {
+      background: rgba(44, 62, 80, 0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .navbar-glass .nav-link { color: white !important; }
+    .navbar-glass .nav-link:hover { color: #2ecc71 !important; }
+
+    .footer-glass {
+      background-color: #2c3e50;
+      color: white;
+    }
+    .footer-glass a { color: white; }
+    .footer-glass a:hover { color: #2ecc71; }
+
+    /* Gradient Theme */
+    .navbar-gradient {
+      background: linear-gradient(90deg, #ff6a00, #ee0979);
+    }
+    .navbar-gradient .nav-link { color: white !important; }
+    .navbar-gradient .nav-link:hover { color: #ffe082 !important; }
+
+    .footer-gradient {
+      background: linear-gradient(90deg, #ff6a00, #ee0979);
+      color: white;
+    }
+    .footer-gradient a { color: white; }
+    .footer-gradient a:hover { color: #ffe082; }
+
+    /* Logo */
+    .navbar-brand img {
+      height: 40px;
+      margin-right: 10px;
+      border-radius: 4px;
+      background-color: white;
+      padding: 2px;
+    }
+
+    /* Theme Switcher */
+    .theme-switcher {
+      margin-left: 10px;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 14px;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+{% if request.resolver_match.url_name != 'login' %}
+  <!-- Navbar -->
+  <nav id="main-navbar" class="navbar navbar-expand-lg navbar-dark navbar-glass sticky-top">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'daftar_mobil' %}">
+        
+        LUXURY <strong>RENT A CAR</strong>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="{% url 'daftar_mobil' %}">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">Tentang Kami</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'terms' %}">Syarat & Ketentuan</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Hubungi Kami</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profil</a></li>
+          {% if user.is_authenticated %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
+          {% else %}
+            <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'register' %}">Register</a></li>
+          {% endif %}
+        </ul>
+        <!-- Theme Switcher -->
+        <select class="theme-switcher" id="themeSwitcher">
+          <option value="glass">Glass</option>
+          <option value="gradient">Gradient</option>
+        </select>
+      </div>
+    </div>
+  </nav>
+{% endif %}
+
+  <!-- Main Content -->
+  <main class="container my-5">
+    {% block content %}
+    {% endblock %}
+  </main>
+
+{% if request.resolver_match.url_name != 'login' %}
+  <!-- Footer -->
+  <footer id="main-footer" class="footer-glass text-center mt-auto">
+    <p class="mb-1">&copy; 2025 Luxury Rent A Car | All Rights Reserved</p>
+    <div class="footer-icons">
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+    </div>
+  </footer>
+{% endif %}
+
+  <!-- JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const navbar = document.getElementById('main-navbar');
+    const footer = document.getElementById('main-footer');
+    const themeSwitcher = document.getElementById('themeSwitcher');
+
+    function setTheme(theme) {
+      navbar.classList.remove('navbar-glass', 'navbar-gradient');
+      footer.classList.remove('footer-glass', 'footer-gradient');
+
+      if (theme === 'glass') {
+        navbar.classList.add('navbar-glass');
+        footer.classList.add('footer-glass');
+      } else if (theme === 'gradient') {
+        navbar.classList.add('navbar-gradient');
+        footer.classList.add('footer-gradient');
+      }
+      localStorage.setItem('theme-navbar-footer', theme);
+    }
+
+    // Event ganti tema
+    themeSwitcher.addEventListener('change', function() {
+      setTheme(this.value);
+    });
+
+    // Load tema dari localStorage
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('theme-navbar-footer') || 'glass';
+      setTheme(savedTheme);
+      themeSwitcher.value = savedTheme;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+from django import forms
+from .models import Penyewaan
+from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+
+class PenyewaanForm(forms.ModelForm):
+    class Meta:
+        model = Penyewaan
+        fields = ['nama_penyewa', 'tanggal_mulai', 'tanggal_selesai']
+        labels = {
+            'nama_penyewa': 'Nama Penyewa',
+            'tanggal_mulai': 'Tanggal Mulai Sewa',
+            'tanggal_selesai': 'Tanggal Selesai Sewa',
+        }
+        widgets = {
+            'tanggal_mulai': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'tanggal_selesai': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+        }
+
+class CustomUserCreationForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password1', 'password2']
+        labels = {
+            'username': 'Nama Pengguna',
+            'email': 'Email',
+            'password1': 'Kata Sandi',
+            'password2': 'Konfirmasi Kata Sandi',
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.widget.attrs['class'] = 'form-control'

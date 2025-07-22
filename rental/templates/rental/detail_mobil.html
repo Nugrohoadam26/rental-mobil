@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% load static %}
+
+{% block title %}Detail Mobil - Sewa Mobil Terpercaya{% endblock %}
+
+{% block content %}
+<style>
+  body {
+    background: linear-gradient(135deg, #edf0f2, #dce1e5);
+    color: #333;
+  }
+
+  .detail-container {
+    background: #fff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .detail-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  }
+
+  h2 {
+    color: #2c3e50;
+    font-weight: bold;
+  }
+
+  .btn-custom {
+    padding: 10px 20px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+  }
+
+  .btn-success {
+    background: linear-gradient(90deg, #2ecc71, #27ae60);
+    border: none;
+  }
+
+  .btn-success:hover {
+    background: linear-gradient(90deg, #27ae60, #1e8449);
+    transform: scale(1.05);
+  }
+
+  .btn-warning {
+    background: linear-gradient(90deg, #f39c12, #e67e22);
+    border: none;
+    color: #fff;
+  }
+
+  .btn-warning:hover {
+    background: linear-gradient(90deg, #e67e22, #d35400);
+    transform: scale(1.05);
+  }
+
+  .btn-outline-primary {
+    border: 2px solid #3498db;
+    color: #3498db;
+    font-weight: 500;
+  }
+
+  .btn-outline-primary:hover {
+    background: #3498db;
+    color: #fff;
+    transform: scale(1.05);
+  }
+
+  img {
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+  }
+
+  img:hover {
+    transform: scale(1.02);
+  }
+</style>
+
+<div class="container mt-5 pt-5">
+  <div class="detail-container">
+    <div class="row">
+      <div class="col-md-6 mb-4">
+        {% if mobil.gambar %}
+          <img src="{{ mobil.gambar.url }}" class="img-fluid shadow-sm" alt="{{ mobil.nama }}">
+        {% else %}
+          <img src="https://source.unsplash.com/800x600/?car,{{ mobil.merk }}" class="img-fluid shadow-sm" alt="{{ mobil.nama }}">
+        {% endif %}
+      </div>
+      <div class="col-md-6">
+        <h2 class="mb-3">{{ mobil.nama }}</h2>
+        <p><strong>Merk:</strong> {{ mobil.merk }}</p>
+        <p><strong>Tahun:</strong> {{ mobil.tahun }}</p>
+        <p><strong>Jumlah Kursi:</strong> {{ mobil.jumlah_kursi }}</p>
+        <p><strong>Harga per hari:</strong> Rp {{ mobil.harga_per_hari|intcomma }}</p>
+        <p><strong>Transmisi:</strong> {{ mobil.transmisi }}</p>
+
+        <div class="mt-4 d-flex flex-wrap gap-2">
+          {% if mobil.tersedia %}
+            {% if user.is_authenticated %}
+              <a href="{% url 'sewa_mobil' mobil.id %}" class="btn btn-success btn-custom">Order Sekarang</a>
+            {% else %}
+              <a href="{% url 'login' %}?next={% url 'sewa_mobil' mobil.id %}" class="btn btn-warning btn-custom">
+                Login untuk Sewa
+              </a>
+            {% endif %}
+          {% else %}
+            <button class="btn btn-secondary btn-custom" disabled>Tidak Tersedia</button>
+          {% endif %}
+          <a href="{% url 'daftar_mobil' %}" class="btn btn-outline-primary btn-custom">Kembali</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

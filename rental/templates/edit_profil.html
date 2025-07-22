@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<style>
+    body {
+        background: linear-gradient(135deg, #edf0f2, #dce1e5); /* Warna dari gambar */
+        color: #333;
+    }
+</style>
+<div class="container mt-5">
+    <div class="card shadow-sm mx-auto" style="max-width: 500px;">
+        <div class="card-header bg-primary text-white text-center">
+            <h5 class="mb-0">Edit Profil</h5>
+        </div>
+        <div class="card-body">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    <label for="first_name" class="form-label">Nama Depan</label>
+                    <input type="text" name="first_name" id="first_name" class="form-control" 
+                           value="{{ user.first_name }}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="last_name" class="form-label">Nama Belakang</label>
+                    <input type="text" name="last_name" id="last_name" class="form-control" 
+                           value="{{ user.last_name }}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" name="username" id="username" class="form-control" 
+                           value="{{ user.username }}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" name="email" id="email" class="form-control" 
+                           value="{{ user.email }}">
+                </div>
+
+                <div class="mb-3">
+                    <label for="foto" class="form-label">Foto Profil (opsional)</label>
+                    <input type="file" name="foto" id="foto" class="form-control">
+                </div>
+
+                <!-- Tombol Simpan dan Batal -->
+                <div class="d-flex justify-content-between">
+                    <a href="{% url 'profile' %}" class="btn btn-secondary">Batal</a>
+                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
