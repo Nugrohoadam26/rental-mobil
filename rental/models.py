@@ -58,5 +58,20 @@ class RiwayatPenyewaan(models.Model):
         verbose_name = "Riwayat Penyewaan"
         verbose_name_plural = "Daftar Riwayat Penyewaan"
 
+        def __str__(self):
+            return f"{self.nama_penyewa} - {self.mobil.nama}"
+    
+    
+class ContactMessage(models.Model):
+    name = models.CharField(max_length=100, verbose_name="Nama")
+    email = models.EmailField(verbose_name="Email")
+    message = models.TextField(verbose_name="Pesan")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Dikirim pada")
+
+    class Meta:
+        verbose_name = "Pesan Kontak"
+        verbose_name_plural = "Daftar Pesan Kontak"
+
     def __str__(self):
-        return f"{self.nama_penyewa} - {self.mobil.nama}"
+        return f"Pesan dari {self.name} ({self.email})"
+

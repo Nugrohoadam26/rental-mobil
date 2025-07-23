@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Mobil, RiwayatPenyewaan
+from .models import Mobil, RiwayatPenyewaan, ContactMessage
 
 @admin.register(Mobil)
 class MobilAdmin(admin.ModelAdmin):
@@ -16,10 +16,14 @@ class MobilAdmin(admin.ModelAdmin):
         queryset.update(tersedia=False)
 
 
-
 @admin.register(RiwayatPenyewaan)
 class RiwayatPenyewaanAdmin(admin.ModelAdmin):
     list_display = ('nama_penyewa', 'mobil', 'tanggal_mulai', 'tanggal_selesai')
     list_filter = ('tanggal_mulai', 'tanggal_selesai')
 
 
+@admin.register(ContactMessage)
+class ContactMessageAdmin(admin.ModelAdmin):
+    list_display = ('name', 'email', 'created_at')
+    search_fields = ('name', 'email')
+    list_filter = ('created_at',)

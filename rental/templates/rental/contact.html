@@ -1,12 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block title %}Hubungi Kami{% endblock %}
 
 {% block content %}
 <style>
   body {
-    background-color: #dce1e5; /* Background utama */
+    background-color: #dce1e5;
   }
 
   .contact-container {
@@ -14,7 +13,7 @@
     border-radius: 8px;
     padding: 30px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    max-width: 900px;
+    max-width: 700px;
     margin: 50px auto;
     transition: transform 0.3s ease;
   }
@@ -27,18 +26,20 @@
     color: #2c3e50;
     font-weight: bold;
     margin-bottom: 20px;
+    text-align: center;
   }
 
-  .contact-form label {
-    font-weight: 500;
-    color: #34495e;
+  .form-label {
+    font-weight: 600;
+    color: #2c3e50;
   }
 
   .form-control {
     border-radius: 5px;
     border: 1px solid #ccc;
     padding: 10px;
-    margin-bottom: 15px;
+    width: 100%;
+    margin-bottom: 10px;
   }
 
   .btn-submit {
@@ -46,9 +47,10 @@
     color: #fff;
     border-radius: 5px;
     padding: 10px 20px;
-    text-decoration: none;
     transition: all 0.3s ease;
     border: none;
+    width: 100%;
+    font-size: 16px;
   }
 
   .btn-submit:hover {
@@ -58,7 +60,8 @@
   }
 
   .btn-back {
-    display: inline-block;
+    display: block;
+    text-align: center;
     margin-top: 20px;
     padding: 10px 20px;
     background: #2ecc71;
@@ -72,33 +75,59 @@
   .btn-back:hover {
     background: #27ae60;
     transform: scale(1.05);
-    text-decoration: none;
     color: #fff;
+  }
+
+  .alert {
+    margin-bottom: 20px;
+    border-radius: 5px;
+  }
+
+  .errorlist {
+    color: #e74c3c;
+    font-size: 14px;
+    margin-top: -5px;
+    margin-bottom: 10px;
   }
 </style>
 
 <div class="contact-container">
-  <h2 class="text-center">Hubungi Kami</h2>
+  <h2>Hubungi Kami</h2>
   <p class="text-muted text-center mb-4">
     Silakan isi form di bawah ini untuk menghubungi kami atau memberikan pertanyaan.
   </p>
 
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
   <form method="post" class="contact-form">
     {% csrf_token %}
+    {{ form.non_field_errors }}
+
     <div class="mb-3">
-      <label for="name">Nama Lengkap</label>
-      <input type="text" id="name" name="name" class="form-control" placeholder="Masukkan nama Anda" required>
+      {{ form.name.label_tag }}
+      {{ form.name }}
+      {{ form.name.errors }}
     </div>
+
     <div class="mb-3">
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" class="form-control" placeholder="Masukkan email Anda" required>
+      {{ form.email.label_tag }}
+      {{ form.email }}
+      {{ form.email.errors }}
     </div>
+
     <div class="mb-3">
-      <label for="message">Pesan</label>
-      <textarea id="message" name="message" class="form-control" rows="4" placeholder="Tulis pesan Anda" required></textarea>
+      {{ form.message.label_tag }}
+      {{ form.message }}
+      {{ form.message.errors }}
     </div>
+
     <button type="submit" class="btn-submit">Kirim Pesan</button>
-    <a href="{% url 'daftar_mobil' %}" class="btn-back">Kembali</a>
   </form>
+
+  <a href="{% url 'daftar_mobil' %}" class="btn-back">Kembali</a>
 </div>
 {% endblock %}

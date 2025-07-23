@@ -20,7 +20,7 @@
     body {
       display: flex;
       flex-direction: column;
-      background: #f8f9fa; /* Tetap netral */
+      background: #f8f9fa;
     }
 
     main {
@@ -32,12 +32,10 @@
       transition: background 0.5s, color 0.5s;
     }
 
-    /* === NAVBAR THEMES === */
     .navbar {
       transition: background 0.5s, color 0.5s;
     }
 
-    /* Glass Theme */
     .navbar-glass {
       background: rgba(44, 62, 80, 0.8);
       backdrop-filter: blur(10px);
@@ -53,7 +51,6 @@
     .footer-glass a { color: white; }
     .footer-glass a:hover { color: #2ecc71; }
 
-    /* Gradient Theme */
     .navbar-gradient {
       background: linear-gradient(90deg, #ff6a00, #ee0979);
     }
@@ -67,7 +64,6 @@
     .footer-gradient a { color: white; }
     .footer-gradient a:hover { color: #ffe082; }
 
-    /* Logo */
     .navbar-brand img {
       height: 40px;
       margin-right: 10px;
@@ -76,7 +72,6 @@
       padding: 2px;
     }
 
-    /* Theme Switcher */
     .theme-switcher {
       margin-left: 10px;
       padding: 5px 10px;
@@ -94,7 +89,6 @@
   <nav id="main-navbar" class="navbar navbar-expand-lg navbar-dark navbar-glass sticky-top">
     <div class="container">
       <a class="navbar-brand" href="{% url 'daftar_mobil' %}">
-        
         LUXURY <strong>RENT A CAR</strong>
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -106,6 +100,7 @@
           <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">Tentang Kami</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'terms' %}">Syarat & Ketentuan</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Hubungi Kami</a></li>
+          <li class="nav-item"><a class="nav-link" href="{% url 'riwayat_penyewaan' %}">Riwayat Penyewaan</a></li>
           <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profil</a></li>
           {% if user.is_authenticated %}
             <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Logout</a></li>
@@ -163,12 +158,10 @@
       localStorage.setItem('theme-navbar-footer', theme);
     }
 
-    // Event ganti tema
     themeSwitcher.addEventListener('change', function() {
       setTheme(this.value);
     });
 
-    // Load tema dari localStorage
     window.addEventListener('DOMContentLoaded', () => {
       const savedTheme = localStorage.getItem('theme-navbar-footer') || 'glass';
       setTheme(savedTheme);

@@ -1,20 +1,42 @@
-<h1>Riwayat Penyewaan Mobil</h1>
+{% extends 'base.html' %}
 
-<table border="1" cellpadding="8">
-  <tr>
-    <th>Nama Pelanggan</th>
-    <th>Mobil</th>
-    <th>Tanggal Mulai</th>
-    <th>Tanggal Selesai</th>
-  </tr>
-  {% for item in riwayat %}
-  <tr>
-    <td>{{ item.nama_pelanggan }}</td>
-    <td>{{ item.mobil.nama }}</td>
-    <td>{{ item.tanggal_mulai }}</td>
-    <td>{{ item.tanggal_selesai }}</td>
-  </tr>
-  {% empty %}
-  <tr><td colspan="4">Belum ada data penyewaan.</td></tr>
-  {% endfor %}
-</table>
+{% block title %}Riwayat Penyewaan{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4">Riwayat Penyewaan Mobil</h2>
+
+  {% if riwayat %}
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+          <tr>
+            <th>Nama Penyewa</th>
+            <th>Mobil</th>
+            <th>Tanggal Mulai</th>
+            <th>Tanggal Selesai</th>
+            <th>Total Harga</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in riwayat %}
+          <tr>
+            <td>{{ item.nama_penyewa }}</td>
+            <td>{{ item.mobil.nama }}</td>
+            <td>{{ item.tanggal_mulai }}</td>
+            <td>{{ item.tanggal_selesai }}</td>
+            <td>Rp {{ item.total_harga|floatformat:0 }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="alert alert-info" role="alert">
+      Belum ada data penyewaan.
+    </div>
+  {% endif %}
+
+  <a href="{% url 'daftar_mobil' %}" class="btn btn-secondary mt-3">Kembali ke Daftar Mobil</a>
+</div>
+{% endblock %}

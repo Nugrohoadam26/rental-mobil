@@ -8,8 +8,7 @@ from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-
-from .forms import PenyewaanForm
+from .forms import ContactForm, PenyewaanForm
 from .models import Mobil, Penyewaan, RiwayatPenyewaan, Profile
 
 
@@ -75,8 +74,20 @@ class TermsView(TemplateView):
     template_name = 'rental/terms.html'
 
 
-class ContactView(TemplateView):
+class ContactView(View):
     template_name = 'rental/contact.html'
+
+    def get(self, request):
+        form = ContactForm()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Pesan Anda berhasil dikirim!')
+            return redirect('contact')
+        return render(request, self.template_name, {'form': form})
 
 
 # ------------------------
